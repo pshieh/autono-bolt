@@ -1,6 +1,6 @@
 void VL6180X::setupGPI01()
 {
-  writeReg(SYSTEM_MODE_GPIO1, 0x10); //active-low and setting GP101 as output
+  writeReg(SYSTEM_MODE_GPIO1, 0x10); //sets GPI01 pin as an output and active-low so that interrupt on Arduino will trigger when GPI01 pin is pulled high. 
 }
 
 void VL6180X::RangeConfigInterrupt()
@@ -13,13 +13,13 @@ void VL6180X::RangeSetThreshold()
  writeReg(SYSTEM_INTERRUPT_CONFIG_GPIO, 0x01); //0x01 level low, 0x02 0x01 level high
 }
 
-void VL6180X::RangeGetMeasurement() //possibly same as readRangContinousMillimeters check register
+void VL6180X::RangeGetMeasurement() 
 {
- writeReg(SYSRANGE_THRESH_LOW, 0xC8); //covert distance to hex to fit in 8-bit register
- writeReg(SYSTEM_GROUPED_PARAMETER_HOLD,0x00); //setting data safe to copy
+ writeReg(SYSRANGE_THRESH_LOW, 0xC8); //covert threshold distance 200 to hex 0xC8 to fit in 8-bit register. Distance is in millimeters.
+ writeReg(SYSTEM_GROUPED_PARAMETER_HOLD,0x00); //setting register to indicate data safe to copy and run
 }
 
 void VL6180X::ClearAllInterrupt()
 {
- writeReg(SYSTEM_INTERRUPT_CLEAR, 0x01); //clears interrupt
+ writeReg(SYSTEM_INTERRUPT_CLEAR, 0x01); //clears interrupt //result of troubleshooting to make sure interrupt register is clear on startup 
 }
