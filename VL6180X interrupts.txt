@@ -1,22 +1,24 @@
 void VL6180X::setupGPI01()
 {
-  writeReg(SYSTEM_MODE_GPIO1, 0x10); //sets GPI01 pin as an output and active-low so that interrupt on Arduino will trigger when GPI01 pin is pulled high. 
+  writeReg(SYSTEM_MODE_GPIO1, 0x10); //sets GPI01 pin as an output and active-low so that interrupt on Arduino will trigger when GPI01 pin is pulled high. Reference page 55/87 on ST data sheet rev7.
 }
 
 void VL6180X::RangeConfigInterrupt()
 {
- writeReg(SYSTEM_INTERRUPT_CONFIG_GPIO, 0x01); //0x01 level low, 0x02 0x01 level high
+ writeReg(SYSTEM_INTERRUPT_CONFIG_GPIO, 0x01); //0x01 value sets register level low. Configures sensors to generate an ALS interrupt flag when range is less than low threshold distance. Reference page 22/87 on ST data sheet rev7. 
 }
 
 void VL6180X::RangeSetThreshold()
 {
- writeReg(SYSTEM_INTERRUPT_CONFIG_GPIO, 0x01); //0x01 level low, 0x02 0x01 level high
+ writeReg(SYSTEM_INTERRUPT_CONFIG_GPIO, 0x01); //Unsure if this line is redundant to RangeConfigInterrupt line will test on later revisions. Reference page 57/87 on ST data sheet rev7.
 }
 
 void VL6180X::RangeGetMeasurement() 
 {
- writeReg(SYSRANGE_THRESH_LOW, 0xC8); //covert threshold distance 200 to hex 0xC8 to fit in 8-bit register. Distance is in millimeters.
- writeReg(SYSTEM_GROUPED_PARAMETER_HOLD,0x00); //setting register to indicate data safe to copy and run
+ writeReg(SYSRANGE_THRESH_LOW, 0xC8); 
+ //covert threshold distance 200 to hex 0xC8 to fit in 8-bit register. Distance is in millimeters. Reference page 60/87 on ST data sheet rev7.
+ 
+ writeReg(SYSTEM_GROUPED_PARAMETER_HOLD,0x00); //setting register to indicate data safe to copy and run. 
 }
 
 void VL6180X::ClearAllInterrupt()
