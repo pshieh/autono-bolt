@@ -1,0 +1,25 @@
+void VL6180X::setupGPI01()
+{
+  writeReg(SYSTEM_MODE_GPIO1, 0x10); //active-low and setting GP101 as output
+}
+
+void VL6180X::RangeConfigInterrupt()
+{
+ writeReg(SYSTEM_INTERRUPT_CONFIG_GPIO, 0x01); //0x01 level low, 0x02 0x01 level high
+}
+
+void VL6180X::RangeSetThreshold()
+{
+ writeReg(SYSTEM_INTERRUPT_CONFIG_GPIO, 0x01); //0x01 level low, 0x02 0x01 level high
+}
+
+void VL6180X::RangeGetMeasurement() //possibly same as readRangContinousMillimeters check register
+{
+ writeReg(SYSRANGE_THRESH_LOW, 0xC8); //covert distance to hex to fit in 8-bit register
+ writeReg(SYSTEM_GROUPED_PARAMETER_HOLD,0x00); //setting data safe to copy
+}
+
+void VL6180X::ClearAllInterrupt()
+{
+ writeReg(SYSTEM_INTERRUPT_CLEAR, 0x01); //clears interrupt
+}
